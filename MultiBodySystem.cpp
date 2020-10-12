@@ -5,11 +5,11 @@ using namespace std;
 using namespace arma;
 
 
-MultiBodySystem::MultiBodySystem(Planet* planets,int nPlanets){
-  m_planets = planets;
-  m_nP = nPlanet;
+MultiBodySystem::MultiBodySystem(int nCelBodies,CelBody celBodies[]){
+  m_CelBodies = CelBodies;
+  m_nP = nCelBody;
 }
 
 MultiBodySystem::simulate(double h){
-  
+
 }

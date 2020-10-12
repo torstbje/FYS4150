@@ -8,33 +8,31 @@ using namespace std;
 using namespace arma;
 
 
-class Planet{
+class CelBody{
 private:
   vec m_r, m_v, m_a;
   string m_name;
-  double m_mass;
-  double m_h;
+  double m_mass, m_h, m_beta;
+  bool movable;
 public:
-  Planet(string, vec ,vec, double, void f(Planet*,int));
-  void accelerate(Planet*,int);
+  CelBody(string, vec ,vec, double, bool = true, double = 2.);
   string getName();
   double getMass();
   vec getPos();
   vec getVel();
   void setStep(double);
-  void f1(Planet*,int);
-  void f2(Planet*,int);
-  //void setAcceleration(Planet*, int, void f(Planet*, int));
-  void update(Planet*, int);
+  void updateAcce(int,CelBody[]);
+  void update(int,CelBody[]);
 };
+
 class MultiBodySystem{
 private:
-  Planet* m_planets;
   int m_nP;
+  CelBody bodies[];
 
 public:
-  MultiBodySystem(Planet*, int);
-  void simulate(double, int, void f(Planet*, int));
+  MultiBodySystem(int,CelBody[]);
+  //void simulate(double, int, void f(CelBody[], int));
 };
 
 
