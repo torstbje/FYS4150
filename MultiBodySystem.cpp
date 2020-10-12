@@ -9,6 +9,10 @@ MultiBodySystem::MultiBodySystem(int nCelBodies,CelBody celBodies[]){
   m_CelBodies = CelBodies;
   m_nP = nCelBody;
 }
+MultiBodySystem::~MultiBodySystem(int nCelBodies,CelBody celBodies[]){
+  delete[] m_CelBodies; 
+}
+
 
 MultiBodySystem::simulate(double h){
 
