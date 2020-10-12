@@ -30,7 +30,7 @@ vec CelBody::getVel(){
 
 void CelBody::updateAcce(int nBodies, CelBody celestialBodies[]){
   if (movable == false){return;}
-  for (int i = 0; i < m_a.n_rows; i++){
+  for (uint i = 0; i < m_a.n_rows; i++){
     m_a(i) = 0;
   }
   double mass;
