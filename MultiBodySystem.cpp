@@ -1,19 +1,19 @@
-#include "solar.hpp"
-#include <larmadillo>
+#include "Solar.hpp"
+#include <armadillo>
 
 using namespace std;
 using namespace arma;
 
 
-MultiBodySystem::MultiBodySystem(int nCelBodies,CelBody celBodies[]){
-  m_CelBodies = CelBodies;
-  m_nP = nCelBody;
+MultiBodySystem::MultiBodySystem(int nCelBodies,CelBody *celBodies){
+  m_bodies = celBodies;
+  m_nP = nCelBodies;
 }
-MultiBodySystem::~MultiBodySystem(int nCelBodies,CelBody celBodies[]){
-  delete[] m_CelBodies; 
+MultiBodySystem::~MultiBodySystem(){
+  delete[] m_bodies;
 }
 
 
-MultiBodySystem::simulate(double h){
-
+void MultiBodySystem::simulate(double time, int steps){
+  m_time = linspace(0,time,steps);
 }

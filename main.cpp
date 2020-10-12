@@ -1,5 +1,6 @@
 #include "Solar.hpp"
 #include "CelBody.cpp"
+#include "MultiBodySystem.cpp"
 #include <fstream>
 #include <armadillo>
 

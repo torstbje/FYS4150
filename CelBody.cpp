@@ -28,8 +28,8 @@ vec CelBody::getVel(){
   return m_v;
 }
 
-void CelBody::updateAcce(int nBodies, CelBody celestialBodies[]){
-  if (movable == false){return;}
+void CelBody::updateAcce(int nBodies, CelBody *celestialBodies){
+  if (!movable){return;}
   for (uint i = 0; i < m_a.n_rows; i++){
     m_a(i) = 0;
   }

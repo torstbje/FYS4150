@@ -21,18 +21,19 @@ public:
   vec getPos();
   vec getVel();
   void setStep(double);
-  void updateAcce(int,CelBody[]);
-  void update(int,CelBody[]);
+  void updateAcce(int,CelBody*);
+  void update(int,CelBody*);
 };
 
 class MultiBodySystem{
 private:
   int m_nP;
-  CelBody bodies[];
-
+  CelBody *m_bodies;
+  vec m_time;
 public:
-  MultiBodySystem(int,CelBody[]);
-  //void simulate(double, int, void f(CelBody[], int));
+  MultiBodySystem(int,CelBody*);
+  ~MultiBodySystem();
+  void simulate(double, int);
 };
 
 
