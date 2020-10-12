@@ -1,5 +1,5 @@
 #include "Solar.hpp"
-
+#include "CelBody.cpp"
 #include <fstream>
 #include <armadillo>
 
