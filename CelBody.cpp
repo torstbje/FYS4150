@@ -30,30 +30,30 @@ bool CelBody::isMovable(){
 
 void CelBody::updateAcce(int nBodies, CelBody* celestialBodies){
   if (!movable){return;}
-  for (uint i = 0; i < m_a.n_rows; i++){
-    m_a(i) = 0;
-  }
-  double mass;
+
+  m_a = vec(m_a.n_rows,fill::zeros);
+  double mass, grav = 1.488e-34;      //universial graitiy   [AU^3/days^2]
   vec pos;
   string name;
+  vec diffV;
+  double diff;
   for (int i = 0; i < nBodies; i++){
     name = celestialBodies[i].getName();
     if (name != m_name){
       mass = celestialBodies[i].getMass();
       pos = celestialBodies[i].getPos();
-      m_a += (pos-m_r)*mass/pow(abs(pos-m_r),m_beta + 1);
+      diffV = pos-m_r;
+      diff = sqrt(pow(diffV[0],2) + pow(diffV[1],2) + pow(diffV[2],2));
+      m_a += diffV*grav*mass/(pow(diff,m_beta + 1));
     }
   }
 }
 
 void CelBody::update(double h, int nBodies, CelBody* celestialBodies){
-
   m_r += h*m_v + pow(h,2)*m_a/2;
   vec p_a = m_a;
-  m_a.print();
   updateAcce(nBodies,celestialBodies);
   m_v += h*(m_a+p_a)/2;
-
 }
 
 void CelBody::updateEuler(double h, int nBodies, CelBody* celestialBodies){

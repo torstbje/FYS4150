@@ -8,56 +8,69 @@
 using namespace std;
 using namespace arma;
 
+void makeObject(string&,istringstream&,CelBody*,int&);
+void makeStatSun(CelBody*);
 
 int main(int argc, char const *argv[]){
 
-  string version = "earthStatSun";
+  string version = argv[3];
+  //"EarthJup";
 
-  if (version == "earthStatSun"){
-    ifstream inFile("initial_conditions");
-    string line, name;
-    double mass, x, y, z, vx, vy, vz;
-    int n_bodies = 2;
-    CelBody earth, sun;
+  ifstream inFile("initial_conditions.txt");
+  string line, name, objects;
+  double mass;
+  int n_bodies, c_b = 0;
+  bool statSun = false;
 
-    getline(inFile,line);
-    while(getline(inFile,line)){
-      istringstream iss(line);
-      iss >> name;
-
-      if (name == "earth"){
-        iss >> mass >> x >> y >> z >> vx >> vy >> vz;
-        vec r {x,y,z};
-        vec v {vx,vy,vz};
-        earth = CelBody(name,r,v,mass);
-      }
-      if (name == "sun"){
-        iss >> mass;
-        vec r{0,0,0};
-        vec v{0,0,0};
-        sun = CelBody(name,r,v,mass,false);   //Stationary sun
-      }
-    }
-    inFile.close();
-    CelBody bodies[2];
-    bodies[0] = earth;
-    bodies[1] = sun;
-    MultiBodySystem solarSystem(n_bodies,bodies);
+  if (version == "Earth"){
+    objects = "earth";
+    n_bodies = 2;
+    statSun = true;
+  }
+  if (version == "EarthJup"){
+    objects = "earth jupiter";
+    n_bodies = 3;
+    statSun = true;
   }
 
 
-  vec rE(2), vE(2), rS(2), vS(2);
-  rE(0) = 1;
-  rE(1) = 0;
-  double massEarth = 6e24;
-  double massSun = 2e30;
-  double g = 6.674e-11;
-  vE(0) = 0;
-  vE(1) = sqrt(g*massSun);
-  rS(0) = 0; rS(1) = 0; vS(0) = 0; vS(1) = 0;
 
-  CelBody earth("Earth", rE, vE, massEarth);
-  CelBody sun("Sun", rS, vS, massSun, false);
+  CelBody bodies[n_bodies];
+  if (statSun){
+    makeStatSun(bodies);
+    c_b++;
+  }
+
+  getline(inFile,line);
+
+  while(getline(inFile,line)){
+    istringstream iss(line);
+    iss >> name;
+    if (objects.find(name) != string::npos){
+      makeObject(name,iss,bodies,c_b);
+    }
+  }
+  inFile.close();
+
+  MultiBodySystem solarSystem(n_bodies,bodies);
+  string filename = version + ".txt";
+  solarSystem.simulate(filename,30,3001);
+
 
   return 0;
+}
+
+void makeObject(string& name, istringstream& iss, CelBody* bodies, int& n){
+  double mass, x, y, z, vx, vy, vz;
+  iss >> mass >> x >> y >> z >> vx >> vy >> vz;
+  vec r {x,y,z};
+  vec v {vx,vy,vz};
+  bodies[n] = CelBody(name,r,v,mass);
+  n++;
+}
+void makeStatSun(CelBody* bodies){
+  double mass = 2e30;
+  vec r {0,0,0};
+  vec v {0,0,0};
+  bodies[0] = CelBody("sun",r,v,mass,false);
 }
