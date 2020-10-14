@@ -12,9 +12,6 @@ CelBody::CelBody(string name, vec r, vec v, double mass, bool canBeMoved, double
   movable = canBeMoved;
 }
 
-void CelBody::setStep(double h){
-  m_h = h;
-}
 string CelBody::getName(){
   return m_name;
 }
@@ -27,8 +24,11 @@ vec CelBody::getPos(){
 vec CelBody::getVel(){
   return m_v;
 }
+bool CelBody::isMovable(){
+  return movable;
+}
 
-void CelBody::updateAcce(int nBodies, CelBody *celestialBodies){
+void CelBody::updateAcce(int nBodies, CelBody* celestialBodies){
   if (!movable){return;}
   for (uint i = 0; i < m_a.n_rows; i++){
     m_a(i) = 0;
@@ -46,11 +46,18 @@ void CelBody::updateAcce(int nBodies, CelBody *celestialBodies){
   }
 }
 
-void CelBody::update(int nBodies, CelBody celestialBodies[]){
+void CelBody::update(double h, int nBodies, CelBody* celestialBodies){
 
-  m_r += m_h*m_v + pow(m_h,2)*m_a/2;
+  m_r += h*m_v + pow(h,2)*m_a/2;
   vec p_a = m_a;
+  m_a.print();
   updateAcce(nBodies,celestialBodies);
-  m_v += m_h*(m_a+p_a)/2;
+  m_v += h*(m_a+p_a)/2;
 
+}
+
+void CelBody::updateEuler(double h, int nBodies, CelBody* celestialBodies){
+  m_r += h*m_v;
+  m_v += h*m_a;
+  updateAcce(nBodies,celestialBodies);
 }
