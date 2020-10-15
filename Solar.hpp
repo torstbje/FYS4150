@@ -12,27 +12,29 @@ class CelBody{
 private:
   vec m_r, m_v, m_a;
   string m_name;
-  double m_mass, m_h, m_beta;
+  double m_mass, m_beta;
   bool movable;
 public:
   CelBody(string, vec ,vec, double, bool = true, double = 2.);
+  CelBody() { };
   string getName();
   double getMass();
   vec getPos();
   vec getVel();
-  void setStep(double);
-  void updateAcce(int,CelBody[]);
-  void update(int,CelBody[]);
+  bool isMovable();
+  void updateAcce(int,CelBody*);
+  void update(double,int,CelBody*);
+  void updateEuler(double,int,CelBody*);
 };
 
 class MultiBodySystem{
 private:
-  int m_nP;
-  CelBody bodies[];
-
+  int m_n;
+  CelBody *m_bodies;
+  vec m_time;
 public:
-  MultiBodySystem(int,CelBody[]);
-  //void simulate(double, int, void f(CelBody[], int));
+  MultiBodySystem(int,CelBody*);
+  void simulate(string, double, int);
 };
 
 
