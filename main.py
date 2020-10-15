@@ -57,5 +57,5 @@ while (True):
             j += 1
         i += 1
 
-    
+
     infile.close()
