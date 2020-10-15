@@ -15,7 +15,7 @@ MultiBodySystem::MultiBodySystem(int nCelBodies,CelBody *celBodies){
 }
 
 
-void MultiBodySystem::simulate(string filename, double time, int steps){
+void MultiBodySystem::simulate(string filename, double time, int steps, bool euler){
 
   m_time = linspace(0,time,steps);
   double h = time/steps;
@@ -48,10 +48,13 @@ void MultiBodySystem::simulate(string filename, double time, int steps){
           lineString += to_string(r(k)) + " ";
         }
         lineString += ", ";
-        m_bodies[j].update(h, m_n, m_bodies);
-
+        if (euler){
+          m_bodies[j].updateEuler(h, m_n, m_bodies);
+        }
+        else{
+          m_bodies[j].update(h, m_n, m_bodies);
+        }
       }
-
     }
 
     lineString.pop_back();
