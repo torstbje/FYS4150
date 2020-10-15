@@ -3,32 +3,38 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-T = 30.#float(input("Choose number of days to run the simulations: "))
-N = 301 #int(input("Choose number of measurement points: "))
+T = float(input("Choose number of days to run the simulations: "))
+N = int(input("Choose number of measurement points: "))
 
 while (True):
     print("choose the number corresponding to the system you want to plot")
     print("--------------------------------------------------------------")
-    print("1: Earth and the Sun (stationary)")
-    print("2: Earth, Jupiter and the Sun (stationary)")
+    print("1: Circular Earth orbit with stationary sun (Verlet)")
+    print("2: Circular Earth orbit with stationary sun (Euler)")
+    print("3: Earth, Jupiter and stationary Sun (Verlet)")
 
     print(" ")
-    print("c: Change number of days and measurement points")
+    print("99: Change number of days and measurement points")
     print("0: Stop program")
     ans = int(input("System: "))
     if (ans == 0):
         break
-    if (ans == "c"):
+    if (ans == 99):
         T = float(input("Choose number of days to run the simulations: "))
         N = int(input("Choose number of measurement points: "))
+        continue
 
     if (ans == 1):
         algo = "Earth"
-        #plt.plot(0, 0, "yo", label = "The sun")
+        plt.plot(0, 0, "yo", label = "The sun")
         N_movable = 1
     if (ans == 2):
+        algo = "EarthEuler"
+        plt.plot(0, 0, "yo", label = "The sun")
+        N_movable = 1
+    if (ans == 3):
         algo = "EarthJup"
-        #plt.plot(0, 0, "yo", label = "The sun")
+        plt.plot(0, 0, "yo", label = "The sun")
         N_movable = 2
 
     os.system("g++ -o main.out main.cpp -larmadillo")
@@ -38,24 +44,28 @@ while (True):
     plot_name = algo + "plot.txt"
     infile = open(in_name)
     names = []
-    coordinates = np.zeros()
-    line1 = infile.readline().split(" ")
+
+    line1 = infile.readline().split(" , ")
     for name in line1:
         names.append(name)
 
-    time = np.linspace(0,T,N)
+    coordinates = np.zeros((N, N_movable, 3))         #dimensions correspond to 1:timestep, 2:which objects, 3:spacial dimesion
+    i = 0                                             #iterator for timestep
+    lines = infile.readlines()
 
-    coordinates = np.zeros((N,N_movable,3))         #dimensions correspond to 1:which object, 2:spacial dimension, 3:timestep
-    i = 0           #iterator for timestep
-    j = 0           #iterator for objects
-    for line in infile:
+    for line in lines:
+        j = 0                                         #iterator for objects
         objects = line.split(",")
         for obj in objects:
-            obj = obj.split(" ")
+            obj = obj.split()
             for k in range(3):
-                coordinates[i,j,k] = obj[k]
+                coordinates[i,j,k] = float(obj[k])
             j += 1
         i += 1
 
-    
+
     infile.close()
+    for i in range(len(coordinates[0,:,0])):
+        plt.plot(coordinates[:,i,0],coordinates[:,i,1],label = names[i].capitalize())
+    plt.legend()
+    plt.show()
