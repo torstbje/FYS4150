@@ -14,7 +14,6 @@ void makeStatSun(CelBody*);
 int main(int argc, char const *argv[]){
 
   string version = argv[3];
-  //"EarthJup";
 
   ifstream inFile("initial_conditions.txt");
   string line, name, objects;

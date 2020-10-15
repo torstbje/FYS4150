@@ -1,6 +1,6 @@
 import os
 import numpy as np
-#import maplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 T = 30.#float(input("Choose number of days to run the simulations: "))
@@ -31,8 +31,8 @@ while (True):
         #plt.plot(0, 0, "yo", label = "The sun")
         N_movable = 2
 
-    os.system("c++ -o main.out main.cpp -larmadillo" + " " + str(N) + " " + str(T) + " " + algo)
-    os.system("./main.out")
+    os.system("g++ -o main.out main.cpp -larmadillo")
+    os.system("./main.out"  + " " + str(N) + " " + str(T) + " " + algo)
 
     in_name = algo + ".txt"
     plot_name = algo + "plot.txt"
@@ -56,3 +56,6 @@ while (True):
                 coordinates[i,j,k] = obj[k]
             j += 1
         i += 1
+
+    
+    infile.close()
