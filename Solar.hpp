@@ -13,9 +13,9 @@ private:
   vec m_r, m_v, m_a;
   string m_name;
   double m_mass, m_beta;
-  bool movable;
+  bool movable, relativistic;
 public:
-  CelBody(string, vec ,vec, double, bool = true, double = 2.);
+  CelBody(string, vec ,vec, double, bool = true, bool = false, double = 2.);
   CelBody() { };
   string getName();
   double getMass();
@@ -34,7 +34,7 @@ private:
   vec m_time;
 public:
   MultiBodySystem(int,CelBody*);
-  void simulate(string, double, int);
+  void simulate(string, double, int, bool = false);
 };
 
 

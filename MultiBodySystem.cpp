@@ -10,14 +10,15 @@ MultiBodySystem::MultiBodySystem(int nCelBodies,CelBody *celBodies){
   m_bodies = celBodies;
 
   for (int i = 0; i < m_n; i++){
+    //Finds the initial acceleration
     m_bodies[i].updateAcce(m_n,m_bodies);
   }
 }
 
 
-void MultiBodySystem::simulate(string filename, double time, int steps){
+void MultiBodySystem::simulate(string filename, double time, int steps, bool euler){
 
-  m_time = linspace(0,time,steps);
+  m_time = linspace(0,time,steps);          //Unit: days
   double h = time/steps;
   vec r;
   int dim = m_bodies[0].getPos().n_rows;    //Finds the dimension of the vectors
@@ -27,13 +28,14 @@ void MultiBodySystem::simulate(string filename, double time, int steps){
   string lineString;
   for (int i = 0; i < m_n; i++){
     if (m_bodies[i].isMovable()){
+      //This skips the sun if its stationary
       string name = m_bodies[i].getName();
       lineString += name + " , ";
     }
   }
-  lineString.pop_back();      //These remove the comma at the end of the line
+  lineString.pop_back();              //These remove the comma at the end of the line
   lineString.pop_back();
-  file << lineString << endl;
+  file << lineString << endl;         //Writes a line to the file
   lineString = "";
   for (int i = 0; i < steps; i++){
     //Loops over steps
@@ -48,10 +50,14 @@ void MultiBodySystem::simulate(string filename, double time, int steps){
           lineString += to_string(r(k)) + " ";
         }
         lineString += ", ";
-        m_bodies[j].update(h, m_n, m_bodies);
-
+        if (euler){
+          //These if-else decides which method is used
+          m_bodies[j].updateEuler(h, m_n, m_bodies);
+        }
+        else{
+          m_bodies[j].update(h, m_n, m_bodies);
+        }
       }
-
     }
 
     lineString.pop_back();
