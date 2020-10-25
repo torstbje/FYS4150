@@ -2,7 +2,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-os.system("g++ -o main.out main.cpp -larmadillo")       #compiles the c++ files
+os.system("g++ -o main.out main.cpp -larmadillo -std=c++17")       #compiles the c++ files
 T = float(input("Choose number of days to run the simulations: "))
 N = int(input("Choose number of measurement points: "))
 
