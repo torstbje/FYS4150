@@ -69,7 +69,7 @@ void makeObject(string& name, istringstream& iss, CelBody* bodies, int& n){
 }
 void makeStatSun(CelBody* bodies){
   double mass = 2e30;
-  vec r {0,0,0};
-  vec v {0,0,0};
+  vec r={0,0,0};
+  vec v={0,0,0};
   bodies[0] = CelBody("sun",r,v,mass,false);
 }

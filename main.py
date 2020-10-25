@@ -38,7 +38,6 @@ while (True):
     plot_name = algo + "plot.txt"
     infile = open(in_name)
     names = []
-    coordinates = np.zeros()
     line1 = infile.readline().split(" ")
     for name in line1:
         names.append(name)
@@ -57,5 +56,5 @@ while (True):
             j += 1
         i += 1
 
-    
+
     infile.close()
