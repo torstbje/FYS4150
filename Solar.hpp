@@ -34,7 +34,7 @@ private:
   vec m_time;
 public:
   MultiBodySystem(int,CelBody*);
-  void simulate(string, double, int, bool = false);
+  void simulate(string, double, int, bool = false, bool = false);
 };
 
 
