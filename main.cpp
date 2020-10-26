@@ -11,7 +11,6 @@ using namespace arma;
 void makeObject(string&, istringstream&, CelBody*, int&, string, double);
 void makeStatSun(CelBody*);
 
-
 int main(int argc, char const *argv[]){
 
   int steps = stoi(argv[1]);
@@ -19,23 +18,32 @@ int main(int argc, char const *argv[]){
   string version = argv[3];
 
 
-  ifstream inFile("initial_conditions.txt");
+  /*
+  Declaration of variables
+  */
+
   string line, name, objects;
   double mass, beta = 2.;
   int n_bodies, c_b = 0;
   string modifier = "";
-  bool statSun = true, useEuler = false;
+  bool statSun = true, useEuler = false, timing = false;
 
+
+  /*
+  Version control, changes some of the values given above
+  */
   if (version == "Earth"){
     objects = "earth";
     modifier = "circular";
     n_bodies = 2;
+    timing = true;
   }
   if (version == "EarthEuler"){
     objects = "earth";
     useEuler = true;
     modifier = "circular";
     n_bodies = 2;
+    timing = true;
   }
   if (version == "EarthJup"){
     objects = "earth jupiter";
@@ -55,11 +63,20 @@ int main(int argc, char const *argv[]){
   }
 
   if (version == "EarthBeta"){
+    int ans;
     objects = "earth";
     n_bodies = 2;
     cout << "What exponent do you want to use for beta?\n";
     cout << "Input: ";
     cin >> beta;
+    cout << "What type of orbit do you want?\n";
+    cout << "1: Circular\n";
+    cout << "2: Elliptical\n";
+    cout << "Input: ";
+    cin >> ans;
+    if (ans == 2){
+      modifier = "elliptical";
+    }
   }
   if (version == "EllipticalEarth"){
     objects = "earth";
@@ -84,6 +101,11 @@ int main(int argc, char const *argv[]){
     c_b++;
   }
 
+
+  /*
+  Reads file
+  */
+  ifstream inFile("initial_conditions.txt");
   getline(inFile,line);
 
   while(getline(inFile,line)){
@@ -97,13 +119,16 @@ int main(int argc, char const *argv[]){
 
   MultiBodySystem solarSystem(n_bodies,bodies);
   string filename = version + ".txt";
-  solarSystem.simulate(filename,time,steps);
+  solarSystem.simulate(filename,time,steps,useEuler,timing);
 
 
   return 0;
 }
 
 void makeObject(string& name, istringstream& iss, CelBody* bodies, int& n, string modifier, double beta){
+  /*
+  Makes an object and adds it to the array
+  */
   double mass, x, y, z, vx, vy, vz;
   bool isRel = false;
   iss >> mass;
