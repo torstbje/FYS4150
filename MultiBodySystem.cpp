@@ -1,5 +1,6 @@
 #include "Solar.hpp"
 #include <armadillo>
+#include <ctime>
 
 using namespace std;
 using namespace arma;
@@ -16,7 +17,7 @@ MultiBodySystem::MultiBodySystem(int nCelBodies,CelBody *celBodies){
 }
 
 
-void MultiBodySystem::simulate(string filename, double time, int steps, bool euler){
+void MultiBodySystem::simulate(string filename, double time, int steps, bool euler, bool timing){
 
   m_time = linspace(0,time,steps);          //Unit: days
   double h = time/steps;
@@ -37,6 +38,13 @@ void MultiBodySystem::simulate(string filename, double time, int steps, bool eul
   lineString.pop_back();
   file << lineString << endl;         //Writes a line to the file
   lineString = "";
+
+  clock_t c_start;
+  if (timing){
+    c_start = clock();                //Starts timer
+  }
+
+
   for (int i = 0; i < steps; i++){
     //Loops over steps
     //file << m_time(i) << " ";
@@ -65,6 +73,21 @@ void MultiBodySystem::simulate(string filename, double time, int steps, bool eul
     file << lineString <<endl;
     lineString = "";
   }
+  clock_t c_end = clock();
+
+
+  if (timing){
+    double timer = (1000.0 * (c_end-c_start)/CLOCKS_PER_SEC);//ends timer
+    string method;
+    if (euler){
+      method = "Euler";
+    }
+    else{
+      method = "Verlet";
+    }
+    cout << "Total time for " << method << ": " << timer << " ms\n";
+  }
+
 
   file.close();
 }

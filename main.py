@@ -2,7 +2,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-os.system("g++ -o main.out main.cpp -larmadillo")       #compiles the c++ files
+os.system("g++ -o main.out main.cpp -larmadillo -std=c++17")       #compiles the c++ files
 T = float(input("Choose number of days to run the simulations: "))
 N = int(input("Choose number of measurement points: "))
 
@@ -64,13 +64,12 @@ while (True):
     if (ans == 9):
         algo = "RelMercury"
         N_movable = 1
-        T = 36524        #Days in a century
+        T = 90        #One mercurian year ish
 
 
     os.system("./main.out"  + " " + str(N) + " " + str(T) + " " + algo)         #Calls the c++ program
 
     in_name = algo + ".txt"
-    plot_name = algo + "plot.txt"
     infile = open(in_name)                                                      #Reads the file made by the c++ programs
     names = []
 
@@ -97,43 +96,39 @@ while (True):
 
     infile.close()
     if (algo == "RelMercury"):
-        #Plots Mercurys perihelion as a function of years
+        #Finds how much Mercurys perihelion precesses per century
         merc = coordinates[:,0,:-1]             #We know mercury (in this model) does not have z coordinates
-        theta = []
-        time = []
-        prev = 1                                #Previous position (This is set to 1 so it finds the first perihelion)
+
+        a_ind = int(N/2)                        #Approximate index of ahelion
+        prevMin = merc[a_ind,0]**2 + merc[a_ind,1]**2
+        min_index = a_ind
+        prev = 0                                #Previous position (This is set to 0 so it doesn't pick up the first value
         distance = np.linalg.norm(merc[0,:])    #Current distance
         n = 0
-        for i in range(N-1):
+        for i in range(a_ind+1,N):
             #Loops over timesteps
-            next = np.linalg.norm(merc[i+1,:])
-            if (distance < prev and distance < next):
-                n += 1
-                t = i*T/(N*365.24)
-                theta.append(np.arctan(merc[i,1]/merc[i,0])/(60**4))
-                time.append(t);
-                #theta.append(merc[i,1])
-                #time.append(merc[i,0])
-            prev = distance
-            distance = next
+            this = merc[i,0]**2 + merc[i,1]**2
+            if (this < prevMin):
+                min_index = i
+                prevMin = this
 
-        print(theta[-1])
-        plt.plot(time,theta ,'bo', markersize = 1)
-        plt.title("Perihelion of Mercury over 100 years")
-        plt.xlabel("Time [Years]")
-        plt.ylabel("Angle of Perihelion")
-        plt.show()
+        theta = np.arctan(merc[min_index,1]/merc[min_index,0])*(180*3600)/np.pi
+        print("Precession of Mercurys perihelion over a century: ",theta*36524/88)
+
 
     if (ans != 8):
         #Plots a stationary sun
         plt.plot(0, 0, "yo", label = "The sun")
+
+    n_year = int(88*N/T)
 
     for i in range(len(coordinates[0,:,0])):
         #Loops over and plots all nonstationary objects
         names[i] = names[i].capitalize()
         plt.plot(coordinates[:,i,0],coordinates[:,i,1],label = names[i], markersize = 1)
 
-    plt.title("Motion of %s plotted over %s days" % (", ".join(names), int(T)))
+
+    plt.title("Motion of %s plotted over %s days with n = %d" % (", ".join(names), int(T), N))
     plt.xlabel("x [AU]")
     plt.ylabel("y [AU]")
     plt.legend()
