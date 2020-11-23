@@ -73,10 +73,11 @@ void Lattice::writeCoords(){
   for (int i = 0; i < dim; i++){
     for (int j = 0; j < dim; j++){
       Node*thisNode = pos.whatNode();
-      cout << (*thisNode).getValue() << endl;
-      file << i << " " << j << " " << (*thisNode).getValue() << endl;
+      //file << i << " " << j << " " << (*thisNode).getValue() << endl;
+      file << (*thisNode).getValue() << " ";
       pos.goEast();
     }
+    file << endl;
     pos.goSouth();
   }
   file.close();
