@@ -31,6 +31,7 @@ public:
   Lattice(int);
   double getEnergy();
   void monteCarloCycle();
+  void writeCoords();
 
 private:
   int dim;

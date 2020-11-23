@@ -1,3 +1,4 @@
+
 #include "Node.hpp"
 #include <tgmath.h>
 
@@ -62,11 +63,25 @@ Lattice::Lattice(int L){
     energy += (*nodes[dim-1][i]).getValue()*(*nodes[dim-1][i+1]).getValue();
 
   }
-  energy *= jj;
+  energy *= -jj;
   fNode = nodes[0][0];
 
 }
-
+void Lattice::writeCoords(){
+  Traverser pos(fNode);
+  ofstream file;
+  file.open("ValueGrid.txt");
+  for (int i = 0; i < dim; i++){
+    for (int j = 0; j < dim; j++){
+      Node*thisNode = pos.whatNode();
+      cout << (*thisNode).getValue() << endl;
+      file << i << " " << j << " " << (*thisNode).getValue() << endl;
+      pos.goEast();
+    }
+    pos.goSouth();
+  }
+  file.close();
+}
 
 void Lattice::monteCarloCycle(){
   int deltaE;
