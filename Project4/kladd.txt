@@ -1,0 +1,47 @@
+Node eastNode;
+
+firstNode = Node();
+
+Node& thisNode = firstNode;
+
+for (int i = 0; i < dim - 1; i++){
+  /*
+  Sets up the first row of nodes
+  */
+  eastNode = Node();
+  eastNode.setWest(thisNode);
+  thisNode.setEast(eastNode);
+  Node& thisNode = eastNode;            //One step eastward in the lattice
+}
+
+
+firstNode.setWest(eastNode);         //Closes the loop by connecting the edges
+
+thisNode.setEast(firstNode);
+
+Node& northNode = firstNode;
+
+
+Node& firstInRow = firstNode;
+for (int j = 0;j < dim-1;j++){
+  /*Loops over all rows, this part is not written yet*/
+  Node& northNode = firstInRow;
+  thisNode = Node();
+  for (int i = 0; i < dim - 1; i++){
+    /*Loops over a new row, and pairs it up with the row north of it*/
+    eastNode = Node();
+    thisNode.setEast(eastNode);
+    eastNode.setWest(thisNode);
+    northNode.setSouth(thisNode);
+    thisNode.setNorth(northNode);
+
+
+    Node tempNode = northNode.eastNode();
+    Node& northNode = tempNode;
+    Node& thisNode = eastNode;
+  }
+  northNode = northNode.southNode();
+  northNode.setWest(thisNode)
+  thisNode.setEast(northNode)
+
+}

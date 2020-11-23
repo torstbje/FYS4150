@@ -30,40 +30,33 @@ int Node::getValue(){
 void Node::changeValue(){
   value *= -1;                      //switches the sign
 }
-void Node::setNorth(Node aNode){
-  north = &aNode;
-
+void Node::setNorth(Node* aNode){
+  north = aNode;
 }
-void Node::setEast(Node aNode){
-  east = &aNode;
-
+void Node::setEast(Node* aNode){
+  east = aNode;
 }
-void Node::setSouth(Node aNode){
-  south = &aNode;
+void Node::setSouth(Node* aNode){
+  south = aNode;
 }
-void Node::setWest(Node aNode){
-  west = &aNode;
+void Node::setWest(Node* aNode){
+  west = aNode;
 }
 
-Node Node::northNode(){
-  return *north;
+Node* Node::northNode(){
+  return north;
 }
-Node Node::eastNode(){
-  if (east){
-
-    return *east;
-  }
-  cout << "error\n";
-  return *this;
+Node* Node::eastNode(){
+  return east;
 }
-Node Node::southNode(){
-  return *south;
+Node* Node::southNode(){
+  return south;
 }
-Node Node::westNode(){
-  return *west;
+Node* Node::westNode(){
+  return west;
 }
 
 
 int Node::getDeltaEnergy(){
-  int delta = 2*value*(north -> getValue() + east->getValue() + south->getValue() + west->getValue());  //units of J
+  int delta = 2*value*(north->getValue() + east->getValue() + south->getValue() + west->getValue());  //units of J
 }
