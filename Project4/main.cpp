@@ -19,14 +19,14 @@ int main(int argc, char const *argv[]){
   ofstream meanFile("meanvalues.txt");
 
   for (int i = 0; i < n_cycles; i++){
-    grid.monteCarloCycle();
-  
+
     file << i << " " << grid.getEnergy() << " " << abs(grid.getMagnetization()) << " "<< grid.acceptence();
     file << " " << pow(grid.getEnergy(),2) << " " << pow(grid.getMagnetization(),2) << endl;
+    grid.monteCarloCycle();
   }
 
-  meanFile << grid.getAveE()/(pow(l,2)) << " " << grid.getAveM()/(pow(l,2)) << " " << grid.getAveESQ()/(pow(l,2)) << " ";
-  meanFile << grid.getAveMSQ()/(pow(l,2)) << " "<< grid.getAbsM()/(pow(l,2)) << endl;
+  meanFile << grid.getAveE() << " " << grid.getAveM() << " " << grid.getAveESQ() << " ";
+  meanFile << grid.getAveMSQ() << " "<< grid.getAbsM() << endl;
 
   meanFile.close();
   file.close();

@@ -15,8 +15,8 @@ Lattice::Lattice(int L,string initState,double temp){
   }
 
   beta = 1.0/temp;
-  w1 = exp(4*beta);
-  w2 = exp(8*beta);
+  w1 = exp(-4*beta);
+  w2 = exp(-8*beta);
 
   Node* nodes[dim][dim];
 
@@ -112,16 +112,20 @@ void Lattice::monteCarloCycle(){
       }
 
       /*Updates average values*/
-      aveE += energy;
-      aveESQ += pow(energy,2);
-      aveM += magnetization;
-      aveMSQ += pow(magnetization,2);
-      absM += abs(magnetization);
+
+      aveE += energy/(double)pow(dim,2);
+      aveESQ += pow(energy,2)/(double)pow(dim,2);
+      aveM += magnetization/(double)pow(dim,2);
+      aveMSQ += pow(magnetization,2)/(double)pow(dim,2);
+      absM += abs(magnetization)/((double)pow(dim,2));
+
 
       pos.goEast();
     }
     pos.goSouth();
   }
+
+  //double norm = dim*dim;
 
 }
 void Lattice::energyChange(Node* aNode, int dE){

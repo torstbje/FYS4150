@@ -50,7 +50,7 @@ public:
 
 private:
   vec energyProb;
-  int aveE = 0, aveM = 0, aveESQ = 0, aveMSQ = 0, absM = 0;
+  double aveE = 0, aveM = 0, aveESQ = 0, aveMSQ = 0, absM = 0;
   int dim, nAccepted = 0;
   Node* fNode;       //first node
 
