@@ -85,8 +85,8 @@ void Lattice::writeCoords(){
 
 void Lattice::monteCarloCycle(){
   int deltaE;
-
-  //aveE = 0; aveM = 0; aveESQ = 0; aveMSQ = 0; absM = 0;
+  nAccepted = 0;
+  aveE = 0; aveM = 0; aveESQ = 0; aveMSQ = 0; absM = 0;
   Traverser pos(fNode);
 
   for (int i = 0; i < dim; i++){
@@ -113,12 +113,13 @@ void Lattice::monteCarloCycle(){
 
       /*Updates average values*/
 
-      aveE += energy/(double)pow(dim,2);
-      aveESQ += pow(energy,2)/(double)pow(dim,2);
-      aveM += magnetization/(double)pow(dim,2);
-      aveMSQ += pow(magnetization,2)/(double)pow(dim,2);
+      aveE += energy/((double)pow(dim,2));
+      aveESQ += pow(energy,2)/((double)pow(dim,2));
+      aveM += magnetization/((double)pow(dim,2));
+      aveMSQ += pow(magnetization,2)/((double)pow(dim,2));
       absM += abs(magnetization)/((double)pow(dim,2));
-
+      aveChi += (pow(magnetization,2) - pow(abs(magnetization),2))/(pow(dim,2))*beta;
+      aveC += (pow(energy,2) - pow(abs(energy),2))/(pow(dim,2))*pow(beta,2);
 
       pos.goEast();
     }
@@ -151,6 +152,12 @@ double Lattice::getAveMSQ(){
 }
 double Lattice::getAbsM(){
   return absM;
+}
+double Lattice::getChi(){
+  return aveChi;
+}
+double Lattice:: getC(){
+  return aveC;
 }
 
 vec Lattice::getEnergyProbabilities(){

@@ -101,28 +101,7 @@ while (True):
 
         infile.close()
 
-        infile2 = open("meanvalues.txt")
-        i = 0
-        for line in infile2:
-            numbers = line.split()
-            energy_var[i] = float(numbers[2]) - float(numbers[0])**2
-            magnet_var[i] = float(numbers[3]) - float(numbers[4])**2
-            i += 1
 
-
-        chi = magnet_var/temp
-        Cv = energy_var/(temp**2)
-
-
-        plt.plot(nList,energy,'r',label = "Energy")
-        plt.plot(nList,magnetization,'b',label = "Magnetization")
-        plt.plot(nList,Cv,'m',label = "Susceptibility")
-        plt.plot(nList,chi,'y',label = "Specific heat")
-        plt.title("Change in Energy and magnetization for lattice at temperature T = %.2f" % (temp))
-        plt.xlabel("MonteCarlo cycles")
-        plt.ylabel("Value")
-        plt.legend()
-        plt.show()
 
         plt.plot(nList,n_changes,'b')
         plt.title("Amount of accepted energy changes per cycle")

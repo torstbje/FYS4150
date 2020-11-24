@@ -25,7 +25,7 @@ int main(int argc, char const *argv[]){
     grid.monteCarloCycle();
   }
 
-  meanFile << grid.getAveE() << " " << grid.getAveM() << " " << grid.getAveESQ() << " ";
+  meanFile << grid.getAveE() << " " << grid.getChi() << " " << grid.getC() << " ";
   meanFile << grid.getAveMSQ() << " "<< grid.getAbsM() << endl;
 
   meanFile.close();

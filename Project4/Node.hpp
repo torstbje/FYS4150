@@ -41,6 +41,8 @@ public:
   double getAveM();
   double getAveMSQ();
   double getAbsM();
+  double getChi();
+  double getC();
   int acceptence();
   vec getEnergyProbabilities();
   void monteCarloCycle();
@@ -50,7 +52,7 @@ public:
 
 private:
   vec energyProb;
-  double aveE = 0, aveM = 0, aveESQ = 0, aveMSQ = 0, absM = 0;
+  double aveE = 0, aveM = 0, aveESQ = 0, aveMSQ = 0, absM = 0, aveChi = 0, aveC = 0;
   int dim, nAccepted = 0;
   Node* fNode;       //first node
 
