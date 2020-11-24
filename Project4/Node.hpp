@@ -1,9 +1,13 @@
 #ifndef NODE_hpp
 #define NODE_hpp
+#include <armadillo>
+
+using namespace std;
+using namespace arma;
 
 class Node{
 public:
-  Node();
+  Node(string);
 
   int getValue();
   void changeValue();
@@ -28,16 +32,23 @@ private:
 
 class Lattice{
 public:
-  Lattice(int);
+  Lattice(int,string,double);
   double getEnergy();
+  double getMagnetization();
+  int acceptence();
+  vec getEnergyProbabilities();
   void monteCarloCycle();
   void writeCoords();
 
+  void energyChange(Node*,int);
+
 private:
-  int dim;
+  vec energyProb;
+  int dim, nAccepted = 0;
   Node* fNode;       //first node
-  double energy = 0;
-  double jj,w1,w2;
+  double energy = 0,magnetization = 0;
+  double jj,w1,w2,beta;
+
 };
 
 class Traverser{
