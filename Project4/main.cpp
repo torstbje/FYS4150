@@ -8,11 +8,15 @@
 using namespace std;
 
 int main(int argc, char const *argv[]){
-  (void) argc,argv;
+  //(void) argc,argv;
 
-  int l = 8;
+  int l = 300;
+  int n_cycles = 10000;
   Lattice grid(l);
-  grid.monteCarloCycle();
+  for (int i = 0; i<n_cycles; i++){
+    grid.monteCarloCycle();
+  }
+
   grid.writeCoords();
 
   return 1;

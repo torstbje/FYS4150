@@ -1,4 +1,3 @@
-
 #include "Node.hpp"
 #include <tgmath.h>
 
@@ -9,7 +8,7 @@ Lattice::Lattice(int L){
   jj = 1.0;
   dim = L;
 
-  double beta = 1.0/8;
+  double beta = 5;//log(1+sqrt(2))/2;
   w1 = exp(-4*jj*beta);
   w2 = exp(-8*jj*beta);
 
@@ -74,10 +73,11 @@ void Lattice::writeCoords(){
   for (int i = 0; i < dim; i++){
     for (int j = 0; j < dim; j++){
       Node*thisNode = pos.whatNode();
-      cout << (*thisNode).getValue() << endl;
-      file << i << " " << j << " " << (*thisNode).getValue() << endl;
+      //file << i << " " << j << " " << (*thisNode).getValue() << endl;
+      file << (*thisNode).getValue() << " ";
       pos.goEast();
     }
+    file << endl;
     pos.goSouth();
   }
   file.close();
@@ -115,7 +115,7 @@ void Lattice::monteCarloCycle(){
       pos.goEast();
     }
     pos.goSouth();
-    cout << "test\n";
+    //cout << "test\n";
   }
 
 }

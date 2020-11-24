@@ -59,4 +59,5 @@ Node* Node::westNode(){
 
 int Node::getDeltaEnergy(){
   int delta = 2*value*(north->getValue() + east->getValue() + south->getValue() + west->getValue());  //units of J
+  return delta;
 }
