@@ -45,10 +45,10 @@ while (True):
             drive_string = "./main.out " + str(L) + " " + str(T) + " " + str(n) + version
             os.system(drive_string)
             infile = open("meanvalues.txt")
-            n_skipped = int(n*0.3)
-            for i in range(n_skipped):
+            #n_skipped = int(n*0.3)
+            #for i in range(n_skipped):
                 #Skips the calibration temperatures
-                infile.readline()
+            #    infile.readline()
             E = 0
             E2 = 0
             M = 0
@@ -62,10 +62,12 @@ while (True):
 
             infile.close()
 
+            """
             E = E/(n-n_skipped)
             M = M/(n-n_skipped)
             E2 = E2/(n-n_skipped)
             M2 = M2/(n-n_skipped)
+            """
             energies[it] = E
             magnetization[it] = M
             chi[it] = (M2-M**2)/T
