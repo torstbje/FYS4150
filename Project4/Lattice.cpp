@@ -10,7 +10,6 @@ using namespace arma;
 Lattice::Lattice(int L,string initState,double temp){
 >>>>>>> b393b70c695f8e791c4f7f560daec4f7f45a7ad0
   srand(3);                             //seed
-  jj = 1.0;
   dim = L;
   energyProb = vec(pow(dim,2)+1);
   if (initState == "alligned"){
@@ -19,8 +18,8 @@ Lattice::Lattice(int L,string initState,double temp){
   }
 
   beta = 1.0/temp;
-  w1 = exp(-4*jj*beta);
-  w2 = exp(-8*jj*beta);
+  w1 = exp(-4*beta);
+  w2 = exp(-8*beta);
 
   Node* nodes[dim][dim];
 
@@ -67,7 +66,7 @@ Lattice::Lattice(int L,string initState,double temp){
     (*nodes[dim-1][i+1]).setWest(nodes[dim-1][i]);
 
   }
-  energy *= -jj;
+  energy *= -1;
   fNode = nodes[0][0];
 
 }
@@ -113,6 +112,13 @@ void Lattice::monteCarloCycle(){
           energyChange(thisNode,deltaE);
         }
       }
+
+      aveE += energy;
+      aveESQ += pow(energy,2);
+      aveM += magnetization;
+      aveMSQ += pow(magnetization,2);
+      absM += abs(magnetization);
+
       pos.goEast();
     }
     pos.goSouth();
@@ -125,7 +131,24 @@ void Lattice::energyChange(Node* aNode, int dE){
   magnetization += 2*(*aNode).getValue();
   nAccepted++;
   energyProb((energy+2*pow(dim,2))/4)++;
+
 }
+double Lattice::getAveE(){
+  return aveE;
+}
+double Lattice::getAveESQ(){
+  return aveESQ;
+}
+double Lattice::getAveM(){
+  return aveM;
+}
+double Lattice::getAveMSQ(){
+  return aveMSQ;
+}
+double Lattice::getAbsM(){
+  return absM;
+}
+
 vec Lattice::getEnergyProbabilities(){
   return energyProb;
 }
