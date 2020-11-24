@@ -40,7 +40,6 @@ int main(int argc, char const *argv[]){
   }
   probFile.close();
 
->>>>>>> b393b70c695f8e791c4f7f560daec4f7f45a7ad0
   grid.writeCoords();
 
   return 1;
