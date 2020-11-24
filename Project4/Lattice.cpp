@@ -113,6 +113,7 @@ void Lattice::monteCarloCycle(){
         }
       }
 
+      /*Updates average values*/
       aveE += energy;
       aveESQ += pow(energy,2);
       aveM += magnetization;
@@ -126,6 +127,7 @@ void Lattice::monteCarloCycle(){
 
 }
 void Lattice::energyChange(Node* aNode, int dE){
+  /*Is called whenever a spin is flipped*/
   (*aNode).changeValue();
   energy += dE;
   magnetization += 2*(*aNode).getValue();

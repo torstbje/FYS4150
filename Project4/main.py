@@ -30,29 +30,54 @@ while (True):
     if (ans == 0):
         break
     elif (ans == 1):
-        temp = np.arrange(2,2.3,0.05)
-        energies = np.zeros(len(temp))
+        temp = np.arange(2,2.3,0.01)
+        k = len(temp)
+        energies = np.zeros(k)
+        magnetization = np.zeros(k)
+        chi = np.zeros(k)
+        Cv = np.zeros(k)
         print("Choose lattice dimension")
         L = int(input("Input: "))
-        n = 1000
+        print("Choose number of MonteCarlo cycles")
+        n = int(input("Input: "))
         it = 0
         for T in temp:
             drive_string = "./main.out " + str(L) + " " + str(T) + " " + str(n) + version
             os.system(drive_string)
             infile = open("meanvalues.txt")
-            n_skipped
+            n_skipped = int(n*0.3)
             for i in range(n_skipped):
-                #Skips the calibrationtemperatures
+                #Skips the calibration temperatures
                 infile.readline()
             E = 0
+            E2 = 0
+            M = 0
+            M2 = 0
             for line in infile:
                 numbers = line.split()
                 E += float(numbers[0])
+                M += float(numbers[4])
+                E2 += float(numbers[2])
+                M2 += float(numbers[3])
 
             infile.close()
-            energies[i] = E/(n-n_skipped)
-            i += 1
-        plt.plot(T,energies)
+
+            E = E/(n-n_skipped)
+            M = M/(n-n_skipped)
+            E2 = E2/(n-n_skipped)
+            M2 = M2/(n-n_skipped)
+            energies[it] = E
+            magnetization[it] = M
+            chi[it] = (M2-M**2)/T
+            Cv[it] = (E2-E**2)/(T**2)
+            it += 1
+        plt.plot(temp,energies,'r',label = "Energy")
+        plt.plot(temp,magnetization,'b',label = "Magnetization")
+        plt.plot(temp,chi,'m',label = "Susceptibility")
+        plt.plot(temp,Cv,'y',label = "Specific heat")
+
+        plt.title("Energy and magnetization for %d Monte-Carlo cycles with L = %d" % (n,L))
+        plt.legend()
         plt.show()
 
 
