@@ -5,7 +5,6 @@ using namespace std;
 using namespace arma;
 Lattice::Lattice(int L,string initState,double temp){
 
-  srand(3);                             //seed
 
   srand(2);                             //seed
   dim = L;

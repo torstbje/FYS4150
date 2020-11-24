@@ -33,7 +33,6 @@ private:
 class Lattice{
 public:
 
-  Lattice(int,string);
   Lattice(int,string,double);
   double getEnergy();
   double getMagnetization();
