@@ -20,12 +20,14 @@ int main(int argc, char const *argv[]){
 
   for (int i = 0; i < n_cycles; i++){
     grid.monteCarloCycle();
+  
     file << i << " " << grid.getEnergy() << " " << abs(grid.getMagnetization()) << " "<< grid.acceptence();
     file << " " << pow(grid.getEnergy(),2) << " " << pow(grid.getMagnetization(),2) << endl;
-
-    meanFile << grid.getAveE()/(pow(l,2)) << " " << grid.getAveM()/(pow(l,2)) << " " << grid.getAveESQ()/(pow(l,2)) << " ";
-    meanFile << grid.getAveMSQ()/(pow(l,2)) << " "<< grid.getAbsM()/(pow(l,2)) << endl;
   }
+
+  meanFile << grid.getAveE()/(pow(l,2)) << " " << grid.getAveM()/(pow(l,2)) << " " << grid.getAveESQ()/(pow(l,2)) << " ";
+  meanFile << grid.getAveMSQ()/(pow(l,2)) << " "<< grid.getAbsM()/(pow(l,2)) << endl;
+
   meanFile.close();
   file.close();
 
