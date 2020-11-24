@@ -5,12 +5,20 @@ Node::Node(string state){
   if (state == "random"){
     value = (rand() % 2)*2 - 1;       //randomly chooses either -1, or 1
   }
+<<<<<<< HEAD
   else if (state = "up"){
+=======
+  else if (state == "aligned"){
+>>>>>>> b393b70c695f8e791c4f7f560daec4f7f45a7ad0
     value = 1;
   }
   else{
     value = -1;
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> b393b70c695f8e791c4f7f560daec4f7f45a7ad0
   north = east = west = south = nullptr;
 }
 
@@ -67,4 +75,5 @@ Node* Node::westNode(){
 
 int Node::getDeltaEnergy(){
   int delta = 2*value*(north->getValue() + east->getValue() + south->getValue() + west->getValue());  //units of J
+  return delta;
 }
