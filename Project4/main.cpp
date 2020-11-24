@@ -11,7 +11,7 @@ int main(int argc, char const *argv[]){
   (void) argc,argv;
 
   int l = 8;
-  Lattice grid(l);
+  Lattice grid(l,random);
   grid.monteCarloCycle();
   grid.writeCoords();
 

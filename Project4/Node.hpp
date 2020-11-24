@@ -3,7 +3,7 @@
 
 class Node{
 public:
-  Node();
+  Node(string);
 
   int getValue();
   void changeValue();
@@ -28,7 +28,7 @@ private:
 
 class Lattice{
 public:
-  Lattice(int);
+  Lattice(int,string);
   double getEnergy();
   void monteCarloCycle();
   void writeCoords();
@@ -36,7 +36,7 @@ public:
 private:
   int dim;
   Node* fNode;       //first node
-  double energy = 0;
+  double energy = 0, magnetization = 0;
   double jj,w1,w2;
 };
 

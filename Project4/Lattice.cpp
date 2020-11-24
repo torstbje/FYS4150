@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Lattice::Lattice(int L){
+Lattice::Lattice(int L,string initState){
   srand(3);                             //seed
   jj = 1.0;
   dim = L;
@@ -18,7 +18,7 @@ Lattice::Lattice(int L){
 
   for (int i = 0; i < dim; i++){
     for (int j = 0; j < dim; j++){
-      nodes[i][j] = new Node();
+      nodes[i][j] = new Node(initState);
     }
   }
 
