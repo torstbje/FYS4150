@@ -2,14 +2,12 @@
 #include <tgmath.h>
 
 using namespace std;
-<<<<<<< HEAD
-
-Lattice::Lattice(int L,string initState){
-=======
 using namespace arma;
 Lattice::Lattice(int L,string initState,double temp){
->>>>>>> b393b70c695f8e791c4f7f560daec4f7f45a7ad0
+
   srand(3);                             //seed
+
+  srand(2);                             //seed
   dim = L;
   energyProb = vec(pow(dim,2)+1);
   if (initState == "alligned"){
