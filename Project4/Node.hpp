@@ -55,8 +55,6 @@ private:
   int dim, nAccepted = 0;
   Node* fNode;       //first node
 
-  double energy = 0, magnetization = 0;
-  double jj,w1,w2;
 
   double energy = 0,magnetization = 0;
   double w1,w2,beta;
