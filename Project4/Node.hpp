@@ -32,11 +32,9 @@ private:
 
 class Lattice{
 public:
-<<<<<<< HEAD
+
   Lattice(int,string);
-=======
   Lattice(int,string,double);
->>>>>>> b393b70c695f8e791c4f7f560daec4f7f45a7ad0
   double getEnergy();
   double getMagnetization();
   double getAveE();
@@ -56,14 +54,13 @@ private:
   int aveE = 0, aveM = 0, aveESQ = 0, aveMSQ = 0, absM = 0;
   int dim, nAccepted = 0;
   Node* fNode;       //first node
-<<<<<<< HEAD
+
   double energy = 0, magnetization = 0;
   double jj,w1,w2;
-=======
+
   double energy = 0,magnetization = 0;
   double w1,w2,beta;
 
->>>>>>> b393b70c695f8e791c4f7f560daec4f7f45a7ad0
 };
 
 class Traverser{
