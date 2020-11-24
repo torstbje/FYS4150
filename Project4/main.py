@@ -71,10 +71,10 @@ while (True):
             chi[it] = (M2-M**2)/T
             Cv[it] = (E2-E**2)/(T**2)
             it += 1
-        plt.plot(temp,energies,'r',label = "Energy")
-        plt.plot(temp,magnetization,'b',label = "Magnetization")
-        plt.plot(temp,chi,'m',label = "Susceptibility")
-        plt.plot(temp,Cv,'y',label = "Specific heat")
+        plt.plot(temp,energies,'r',label = r"$\langle E\rangle$")
+        plt.plot(temp,magnetization,'b',label = r"$\langle |M|\rangle$")
+        plt.plot(temp,chi,'m',label = r"$\chi$")
+        plt.plot(temp,Cv,'y',label = r"$C_V$")
 
         plt.title("Energy and magnetization for %d Monte-Carlo cycles with L = %d" % (n,L))
         plt.legend()

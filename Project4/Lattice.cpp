@@ -13,8 +13,8 @@ Lattice::Lattice(int L,string initState,double temp){
   }
 
   beta = 1.0/temp;
-  w1 = exp(-4*beta);
-  w2 = exp(-8*beta);
+  w1 = exp(4*beta);
+  w2 = exp(8*beta);
 
   Node* nodes[dim][dim];
 
@@ -109,9 +109,9 @@ void Lattice::monteCarloCycle(){
       }
 
       /*Updates average values*/
-      aveE += energy;
+      aveE += energy/(dim*dim);
       aveESQ += pow(energy,2);
-      aveM += magnetization;
+      aveM += magnetization/(dim*dim);
       aveMSQ += pow(magnetization,2);
       absM += abs(magnetization);
 
