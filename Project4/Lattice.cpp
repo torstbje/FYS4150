@@ -84,7 +84,7 @@ void Lattice::writeCoords(){
 void Lattice::monteCarloCycle(){
   int deltaE;
 
-  aveE = 0; aveM = 0; aveESQ = 0; aveMSQ = 0; absM = 0;
+  //aveE = 0; aveM = 0; aveESQ = 0; aveMSQ = 0; absM = 0;
   Traverser pos(fNode);
 
   for (int i = 0; i < dim; i++){
