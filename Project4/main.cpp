@@ -9,11 +9,6 @@ using namespace std;
 
 int main(int argc, char const *argv[]){
 
-<<<<<<< HEAD
-  int l = 8;
-  Lattice grid(l,random);
-  grid.monteCarloCycle();
-=======
   int l = stoi(argv[1]);
   double temperature = stod(argv[2]);
   int n_cycles = stoi(argv[3]);
