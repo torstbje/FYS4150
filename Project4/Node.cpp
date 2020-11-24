@@ -1,8 +1,17 @@
 #include "Node.hpp"
 using namespace std;
 
-Node::Node(){
-  value = (rand() % 2)*2 - 1;       //randomly chooses either -1, or 1
+Node::Node(string state){
+  if (state == "random"){
+    value = (rand() % 2)*2 - 1;       //randomly chooses either -1, or 1
+  }
+  else if (state == "aligned"){
+    value = 1;
+  }
+  else{
+    value = -1;
+  }
+
   north = east = west = south = nullptr;
 }
 

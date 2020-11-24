@@ -1,24 +1,29 @@
+
 #include "Node.hpp"
 #include <tgmath.h>
 
 using namespace std;
-
-Lattice::Lattice(int L){
+using namespace arma;
+Lattice::Lattice(int L,string initState,double temp){
   srand(3);                             //seed
   jj = 1.0;
   dim = L;
+  energyProb = vec(pow(dim,2)+1);
+  if (initState == "alligned"){
+    energy = pow(dim,2)*2;
+    magnetization = pow(dim,2);
+  }
 
-  double beta = 5;//log(1+sqrt(2))/2;
+  beta = 1.0/temp;
   w1 = exp(-4*jj*beta);
   w2 = exp(-8*jj*beta);
 
   Node* nodes[dim][dim];
 
 
-
   for (int i = 0; i < dim; i++){
     for (int j = 0; j < dim; j++){
-      nodes[i][j] = new Node();
+      nodes[i][j] = new Node(initState);
     }
   }
 
@@ -28,12 +33,10 @@ Lattice::Lattice(int L){
     /*Connects top row with bottom row*/
     (*nodes[0][i]).setNorth(nodes[dim-1][i]);
     (*nodes[dim-1][i]).setSouth(nodes[0][i]);
-    energy += (*nodes[0][i]).getValue()*(*nodes[dim-1][i]).getValue();
 
     /*Connects left column with right column*/
     (*nodes[i][0]).setWest(nodes[i][dim-1]);
     (*nodes[i][dim-1]).setEast(nodes[i][0]);
-    energy += (*nodes[i][0]).getValue()*(*nodes[i][dim-1]).getValue();
 
   }
 
@@ -43,11 +46,11 @@ Lattice::Lattice(int L){
       /*Connects all the other nodes*/
       (*nodes[i][j]).setEast(nodes[i][j+1]);
       (*nodes[i][j+1]).setWest(nodes[i][j]);
-      energy += (*nodes[i][j]).getValue()*(*nodes[i][j+1]).getValue();
+
 
       (*nodes[i][j]).setSouth(nodes[i+1][j]);
       (*nodes[i+1][j]).setNorth(nodes[i][j]);
-      energy += (*nodes[i][j]).getValue()*(*nodes[i+1][j]).getValue();
+
 
       /*Collects the initial energy*/
 
@@ -55,11 +58,9 @@ Lattice::Lattice(int L){
     /*connects right column with itself, and bottow row with itself*/
     (*nodes[i][dim-1]).setSouth(nodes[i+1][dim-1]);
     (*nodes[i+1][dim-1]).setNorth(nodes[i][dim-1]);
-    energy += (*nodes[i][dim-1]).getValue()*(*nodes[i+1][dim-1]).getValue();
 
     (*nodes[dim-1][i]).setEast(nodes[dim-1][i+1]);
     (*nodes[dim-1][i+1]).setWest(nodes[dim-1][i]);
-    energy += (*nodes[dim-1][i]).getValue()*(*nodes[dim-1][i+1]).getValue();
 
   }
   energy *= -jj;
@@ -73,7 +74,6 @@ void Lattice::writeCoords(){
   for (int i = 0; i < dim; i++){
     for (int j = 0; j < dim; j++){
       Node*thisNode = pos.whatNode();
-      //file << i << " " << j << " " << (*thisNode).getValue() << endl;
       file << (*thisNode).getValue() << " ";
       pos.goEast();
     }
@@ -95,31 +95,43 @@ void Lattice::monteCarloCycle(){
       Node* thisNode = pos.whatNode();
       deltaE = (*thisNode).getDeltaEnergy();        //units of J
       if (deltaE <= 0){
-        (*thisNode).changeValue();
-        energy += deltaE*jj;
+        energyChange(thisNode,deltaE);
       }
       else if (deltaE == 4){
         double r = (double)rand()/RAND_MAX;
         if (r < w1){
-          (*thisNode).changeValue();
-          energy += deltaE*jj;
+          energyChange(thisNode,deltaE);
         }
       }
       else if (deltaE == 8){
         double r = (double)rand()/RAND_MAX;
         if (r < w2){
-          (*thisNode).changeValue();
-          energy += deltaE*jj;
+          energyChange(thisNode,deltaE);
         }
       }
       pos.goEast();
     }
     pos.goSouth();
-    //cout << "test\n";
   }
 
+}
+void Lattice::energyChange(Node* aNode, int dE){
+  (*aNode).changeValue();
+  energy += dE;
+  magnetization += 2*(*aNode).getValue();
+  nAccepted++;
+  energyProb((energy+2*pow(dim,2))/4)++;
+}
+vec Lattice::getEnergyProbabilities(){
+  return energyProb;
 }
 
 double Lattice::getEnergy(){
   return energy;
+}
+double Lattice::getMagnetization(){
+  return magnetization;
+}
+int Lattice::acceptence(){
+  return nAccepted;
 }
