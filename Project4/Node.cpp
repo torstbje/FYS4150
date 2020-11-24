@@ -5,7 +5,9 @@ Node::Node(string state){
   if (state == "random"){
     value = (rand() % 2)*2 - 1;       //randomly chooses either -1, or 1
   }
-  else if (state == "aligned"){
+
+  else if (state == "alligned"){
+
     value = 1;
   }
   else{

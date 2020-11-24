@@ -32,6 +32,8 @@ private:
 
 class Lattice{
 public:
+
+  Lattice(int,string);
   Lattice(int,string,double);
   double getEnergy();
   double getMagnetization();
@@ -52,6 +54,8 @@ private:
   int aveE = 0, aveM = 0, aveESQ = 0, aveMSQ = 0, absM = 0;
   int dim, nAccepted = 0;
   Node* fNode;       //first node
+
+
   double energy = 0,magnetization = 0;
   double w1,w2,beta;
 
